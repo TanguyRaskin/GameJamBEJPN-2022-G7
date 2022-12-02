@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     //basic movements
     private float horizontal;
     private float speed = 8f;
-    private float jumpingPower = 10f;
+    private float jumpingPower = 15f;
     private bool isFacingRight = true;
 
     //dash movement
@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        horizontal = Input.GetAxisRaw("Horizontal");
+
         Jump();
         Move();
         Dash();
@@ -42,7 +44,6 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
@@ -72,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
+        
     }
 
     private void Dash()
@@ -119,6 +120,32 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
-    
 
+
+
+    //EARTH
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag.Equals("Earth"))
+        {
+            Debug.Log("In the mud");
+            speed = 4f;
+        }
+        if (collision.tag.Equals("Air"))
+        {
+            Debug.Log("In the wind");
+            speed = 16f;
+        }
+       
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.Log("Out the mud");
+        speed = 8f;
+
+    }
+
+    
 }
