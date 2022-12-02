@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     //basic movements
     private float horizontal;
     private float speed = 8f;
-    private float jumpingPower = 15f;
+    private float jumpingPower = 10f;
     private bool isFacingRight = true;
 
     //dash movement
