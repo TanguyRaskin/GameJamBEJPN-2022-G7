@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("In the water");
             if(health < 100)
             {
-                health++;
+                StartCoroutine(Healing());
             }
         }
         //fire
@@ -172,9 +172,9 @@ public class PlayerMovement : MonoBehaviour
             
             if (health > 0)
             {
-                health--;
+                StartCoroutine(Hurting());
             }
-            else { Debug.Log("DEAD hp : " + health); }
+            else { Debug.Log("DEAD "); }
         }
     }
 
@@ -197,13 +197,36 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Water"))
         {
             Debug.Log("Out the water");
+            StopCoroutine(Healing());
         }
         //fire
         if (collision.gameObject.CompareTag("Fire"))
         {
             Debug.Log("Out the Fire");
+            StopCoroutine(Hurting());
         }
 
+    }
+
+    private IEnumerator Healing()
+    {
+        if (health >= 100)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        yield return new WaitForSeconds(1f);
+        health += 10;
+        
+    }
+
+    private IEnumerator Hurting()
+    {
+        if (health <= 0)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        yield return new WaitForSeconds(1f);
+        health -= 10;
     }
 
 }
