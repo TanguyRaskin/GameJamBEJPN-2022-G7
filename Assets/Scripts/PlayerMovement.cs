@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float health = 100f;
+
     //basic movements
     private float horizontal;
     private float speed = 8f;
@@ -122,30 +124,86 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
-    //EARTH
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Earth"))
+        //collsion  detected
+        Debug.Log("START Touching Element");
+        //earth
+        if (collision.gameObject.CompareTag("Earth"))
         {
             Debug.Log("In the mud");
             speed = 4f;
         }
-        if (collision.tag.Equals("Air"))
+        //air
+        if (collision.gameObject.CompareTag("Air"))
         {
             Debug.Log("In the wind");
             speed = 16f;
         }
-       
+        //water
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            Debug.Log("In the water");
+            //increase health over time
+        }
+        //fire
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            Debug.Log("In the Fire");
+            //decrease health over time
+        }
+    }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        //water
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            Debug.Log("In the water");
+            if(health < 100)
+            {
+                health++;
+            }
+        }
+        //fire
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            Debug.Log("In the Fire");
+            
+            if (health > 0)
+            {
+                health--;
+            }
+            else { Debug.Log("DEAD hp : " + health); }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Out the mud");
-        speed = 8f;
+        Debug.Log("STOP Touching Element");
+        //earth
+        if (collision.gameObject.CompareTag("Earth"))
+        {
+            Debug.Log("Out the mud");
+            speed = 8f;
+        }
+        //air
+        if (collision.gameObject.CompareTag("Air"))
+        {
+            Debug.Log("Out the wind");
+            speed = 8f;
+        }
+        //water
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            Debug.Log("Out the water");
+        }
+        //fire
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            Debug.Log("Out the Fire");
+        }
 
     }
 
-    
 }
