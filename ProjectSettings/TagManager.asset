@@ -8,6 +8,7 @@ TagManager:
   - Earth
   - Fire
   - Water
+  - Void
   layers:
   - Default
   - TransparentFX

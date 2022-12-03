@@ -19,6 +19,24 @@ public class PlayerMovement : MonoBehaviour
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
+    //EFFECTS
+    //dommage
+    private bool isDommaged = false;
+    private float dommagePower = 10f;
+    private float dommageTimer = 1f;
+    //healed
+    private bool isHealed = false;
+    private float healPower = 10f;
+    private float healTimer = 1f;
+    //slow
+    private bool isSlowed = false;
+    private float speedDivider = 2f;
+    private float slowTimer = 1f;
+    //accelerate
+    private bool isAccelereted = false;
+    private float speedMultiplier = 2f;
+    private float accelecatedTimer = 1f;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform roofCheck;
@@ -48,10 +66,6 @@ public class PlayerMovement : MonoBehaviour
         }
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
-
-
-
-
 
     private void Jump()
     {
@@ -86,8 +100,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
@@ -109,6 +121,119 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Die()
+    {
+        Debug.Log("DIED");
+        //TODO death animation
+    }
+
+    
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //collsion  detected
+        //earth
+        if (collision.gameObject.CompareTag("Earth"))
+        {
+            StartCoroutine(Slowed());
+        }
+        //air
+        if (collision.gameObject.CompareTag("Air"))
+        {
+            StartCoroutine(Accelerated());
+        }
+        //water
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            StartCoroutine(Healed());
+        }
+        //fire
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            StartCoroutine(Dommaged());
+        }
+        //void
+        if (collision.gameObject.CompareTag("Void"))
+        {
+            StartCoroutine(Dommaged());
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Earth"))
+        {
+            if (!isSlowed)
+            {
+                StartCoroutine(Slowed());
+            }
+        }
+        if (collision.gameObject.CompareTag("Air"))
+        {
+            if (!isAccelereted)
+            {
+                StartCoroutine(Accelerated());
+            }
+        }
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            if (!isHealed)
+            {
+                StartCoroutine(Healed());
+            }
+        }
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            if (!isDommaged)
+            {
+                StartCoroutine(Dommaged());
+            }
+        }
+        if (collision.gameObject.CompareTag("Void"))
+        {
+            if (!isDommaged)
+            {
+                StartCoroutine(Dommaged());
+            }
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        //earth
+        if (collision.gameObject.CompareTag("Earth"))
+        {
+            StopCoroutine(Slowed());
+        }
+        //air
+        if (collision.gameObject.CompareTag("Air"))
+        {
+            StopCoroutine(Accelerated());
+        }
+        //water
+        if (collision.gameObject.CompareTag("Water"))
+        {
+            StopCoroutine(Healed());
+        }
+        //fire
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            StopCoroutine(Dommaged());
+        }
+        //Void
+        if (collision.gameObject.CompareTag("Void"))
+        {
+            StopCoroutine(Dommaged());
+        }
+
+    }
+
+
+
+    //COROUTINES
+
     private IEnumerator Dashing()
     {
         canDash = false;
@@ -123,110 +248,50 @@ public class PlayerMovement : MonoBehaviour
         canDash = true;
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private IEnumerator Slowed()
     {
-        //collsion  detected
-        Debug.Log("START Touching Element");
-        //earth
-        if (collision.gameObject.CompareTag("Earth"))
-        {
-            Debug.Log("In the mud");
-            speed = 4f;
-        }
-        //air
-        if (collision.gameObject.CompareTag("Air"))
-        {
-            Debug.Log("In the wind");
-            speed = 16f;
-        }
-        //water
-        if (collision.gameObject.CompareTag("Water"))
-        {
-            Debug.Log("In the water");
-            //increase health over time
-        }
-        //fire
-        if (collision.gameObject.CompareTag("Fire"))
-        {
-            Debug.Log("In the Fire");
-            //decrease health over time
-        }
+        isSlowed = true;
+        float originalSpeed = speed;
+        speed = speed / speedDivider;
+        yield return new WaitForSeconds(slowTimer);
+        isSlowed = false;
+        speed = originalSpeed;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private IEnumerator Accelerated()
     {
-        //water
-        if (collision.gameObject.CompareTag("Water"))
-        {
-            Debug.Log("In the water");
-            if(health < 100)
-            {
-                StartCoroutine(Healing());
-            }
-        }
-        //fire
-        if (collision.gameObject.CompareTag("Fire"))
-        {
-            Debug.Log("In the Fire");
-            
-            if (health > 0)
-            {
-                StartCoroutine(Hurting());
-            }
-            else { Debug.Log("DEAD "); }
-        }
+        isAccelereted = true;
+        float originalSpeed = speed;
+        speed = speed * speedMultiplier;
+        yield return new WaitForSeconds(accelecatedTimer);
+        isAccelereted = false;
+        speed = originalSpeed;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private IEnumerator Healed()
     {
-        Debug.Log("STOP Touching Element");
-        //earth
-        if (collision.gameObject.CompareTag("Earth"))
+        isHealed = true;
+        if (health < 100)
         {
-            Debug.Log("Out the mud");
-            speed = 8f;
+            health += healPower;
         }
-        //air
-        if (collision.gameObject.CompareTag("Air"))
-        {
-            Debug.Log("Out the wind");
-            speed = 8f;
-        }
-        //water
-        if (collision.gameObject.CompareTag("Water"))
-        {
-            Debug.Log("Out the water");
-            StopCoroutine(Healing());
-        }
-        //fire
-        if (collision.gameObject.CompareTag("Fire"))
-        {
-            Debug.Log("Out the Fire");
-            StopCoroutine(Hurting());
-        }
-
+        yield return new WaitForSeconds(healTimer);
+        isHealed = false;
     }
 
-    private IEnumerator Healing()
+    private IEnumerator Dommaged()
     {
-        if (health >= 100)
+        isDommaged = true;
+        if (health > 0)
         {
-            yield return new WaitForSeconds(1f);
+            health -= dommagePower;
         }
-        yield return new WaitForSeconds(1f);
-        health += 10;
-        
-    }
-
-    private IEnumerator Hurting()
-    {
-        if (health <= 0)
+        if(health <= 0)
         {
-            yield return new WaitForSeconds(1f);
+            Die();
         }
-        yield return new WaitForSeconds(1f);
-        health -= 10;
+        yield return new WaitForSeconds(dommageTimer);
+        isDommaged = false;
     }
 
 }
