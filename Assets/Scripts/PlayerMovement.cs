@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     //basic movements
     private float horizontal;
-    private float speed = 8f;
+    private float speed = 10f;
     private float jumpingPower = 15f;
     private bool isFacingRight = true;
 
@@ -37,10 +37,18 @@ public class PlayerMovement : MonoBehaviour
     private float speedMultiplier = 2f;
     private float accelecatedTimer = 1f;
 
+    GameManager gm;
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform roofCheck;
     [SerializeField] private LayerMask groundLayer;
+
+    public void Start()
+    {
+        
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -50,13 +58,17 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        horizontal = Input.GetAxisRaw("Horizontal");
 
-        Jump();
-        Move();
-        Dash();
-        Flip();
+        //if (GameManager.Current.m_CurrentState == GameManager.EGameState.InGame)
+        //{
+            horizontal = Input.GetAxisRaw("Horizontal");
+
+            Jump();
+            Dash();
+            Flip();
+        //}
     }
+
 
     private void FixedUpdate()
     {
@@ -85,11 +97,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
-    }
-
-    private void Move()
-    {
-        
     }
 
     private void Dash()
@@ -125,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("DIED");
         //TODO death animation
+        //death menu
     }
 
     
@@ -228,6 +236,15 @@ public class PlayerMovement : MonoBehaviour
             StopCoroutine(Dommaged());
         }
 
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            Debug.Log("Level completed");
+            //TODO next level menu
+        }
     }
 
 
