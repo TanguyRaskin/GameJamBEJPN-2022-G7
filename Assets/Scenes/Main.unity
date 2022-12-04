@@ -1524,7 +1524,8 @@ MonoBehaviour:
   UIObject: {fileID: 1322966503}
   UIObjectWater: {fileID: 434943142}
   UIObjectMud: {fileID: 1312739899}
-  UIObjectFinish: {fileID: 0}
+  UIObjectFinish: {fileID: 1522192803}
+  UIObjectFire: {fileID: 998801541}
 --- !u!95 &748630291
 Animator:
   serializedVersion: 4
@@ -1841,8 +1842,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278996651
-  m_fontColor: {r: 0.6698113, g: 0.30707398, b: 0.0473923, a: 1}
+    rgba: 4278726655
+  m_fontColor: {r: 1, g: 0.18474099, b: 0.033018887, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2440,10 +2441,10 @@ RectTransform:
   m_Father: {fileID: 1730102878}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -108.48, y: -60.357}
-  m_SizeDelta: {x: 216.96, y: 120.71}
+  m_AnchoredPosition: {x: 0.5, y: 0.25}
+  m_SizeDelta: {x: -1, y: 1.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1322966505
 MonoBehaviour:
@@ -2504,7 +2505,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2532,7 +2533,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 36.380882, z: 0, w: 0}
+  m_margin: {x: 6.240265, y: -0.8222351, z: 0, w: 7.8003387}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2933,11 +2934,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7671900179341223738, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -477.5
+      value: -477.19
       objectReference: {fileID: 0}
     - target: {fileID: 7671900179341223738, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -276.5
+      value: -276.66
       objectReference: {fileID: 0}
     - target: {fileID: 7671900179341223738, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2973,6 +2974,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7671900179341223739, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
       propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671900179341223739, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
+      propertyPath: m_Size.x
+      value: 0.1924
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671900179341223739, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
+      propertyPath: m_Size.y
+      value: 0.178
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671900179341223739, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1551827372, guid: 8a3ca7a6947e49645b560c2fefe2adab, type: 3}
+    - target: {fileID: 7671900179341223739, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7671900179341223740, guid: 9fadc4babaab9c34387abccddfa96f86, type: 3}
@@ -3408,10 +3425,10 @@ Canvas:
   m_GameObject: {fileID: 1730102874}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 1
+  m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -30642,7 +30659,7 @@ GameObject:
   - component: {fileID: 2127775228}
   m_Layer: 0
   m_Name: FireProximity
-  m_TagString: WaterZone
+  m_TagString: FireZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
