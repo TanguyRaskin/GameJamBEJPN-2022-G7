@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float health = 100f;
+    [SerializeField] private float health = 50f;
+
+    [SerializeField] private Animator animator;
 
     //basic movements
     private float horizontal;
@@ -46,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
 
@@ -58,6 +60,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        if(animator != null)
+        {
+            animator.SetFloat("Speed", Mathf.Abs(horizontal));
+        }
 
         //if (GameManager.Current.m_CurrentState == GameManager.EGameState.InGame)
         //{

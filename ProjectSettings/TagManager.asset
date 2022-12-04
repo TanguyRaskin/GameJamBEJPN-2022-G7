@@ -10,6 +10,10 @@ TagManager:
   - Water
   - Void
   - Tuto
+  - WaterZone
+  - FireZone
+  - MudZone
+  - FinishZone
   layers:
   - Default
   - TransparentFX
